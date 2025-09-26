@@ -176,13 +176,13 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
                         )}
 
                         {question.video_solution_url && (
-                          <div className="mt-4">
-                            <VideoPlayer
-                              url={question.video_solution_url}
-                              title={`Solution: ${question.question_text}`}
-                              className="max-w-2xl"
-                            />
-                          </div>
+                          <button
+                            onClick={() => window.open(question.video_solution_url, '_blank')}
+                            className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 font-medium mt-4 flex items-center justify-center gap-2"
+                          >
+                            <BookOpen className="w-4 h-4" />
+                            Watch Solution Video
+                          </button>
                         )}
                       </div>
                     ))}
