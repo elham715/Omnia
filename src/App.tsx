@@ -43,6 +43,16 @@ function App() {
     } else {
       loadData();
     }
+    // Always load topics, regardless of whether an examId is present
+    const fetchTopics = async () => {
+      try {
+        const topicsData = await getTopics();
+        setTopics(topicsData || []);
+      } catch (error) {
+        console.error('Error loading topics:', error);
+      }
+    };
+    fetchTopics();
   }, []);
 
   const loadData = async () => {
@@ -73,6 +83,9 @@ function App() {
           questions: exam.questions || []
         };
         
+        // Set the questions state with the questions from the loaded exam
+        setQuestions(examWithQuestions.questions);
+
         setCurrentView('student-info');
         (window as any).tempExamData = examWithQuestions;
       } else {
