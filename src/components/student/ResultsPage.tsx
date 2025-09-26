@@ -125,7 +125,7 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
                   {/* Individual Question Boxes (Reddish Background) */}
                   <div className="space-y-4">
                     {incorrectQuestions.map((question, index) => (
-                      <div key={question.id} className="bg-red-50 rounded-lg shadow-md p-6">
+                      <div key={question.id} className="bg-red-50 rounded-lg shadow-md p-4">
                         <h4 className="font-medium text-gray-900 mb-2">
                           Question {index + 1}: {question.question_text}
                         </h4>
