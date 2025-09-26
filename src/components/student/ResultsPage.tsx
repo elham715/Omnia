@@ -103,7 +103,7 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
               
               return (
                 <div key={topicName} className="bg-white rounded-lg shadow-md p-6">
-                  <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center justify-between">
+                  <h3 className="text-lg font-bold text-gray-900 mb-6 flex flex-col items-start md:flex-row md:items-center md:justify-between">
                     <div className="flex items-center gap-2">
                       <BookOpen className="w-5 h-5 text-blue-600" />
                       Topic: {topicName}
@@ -111,7 +111,7 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
                     {topicVideoUrl && (
                       <button
                         onClick={() => window.open(topicVideoUrl, '_blank')}
-                        className="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full hover:bg-blue-200 flex items-center gap-1"
+                        className="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full hover:bg-blue-200 flex items-center gap-1 w-full md:w-auto mt-2 md:mt-0"
                       >
                         <BookOpen className="w-4 h-4" />
                         📚 Complete Topic Explanation
