@@ -125,72 +125,12 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
                   {/* Individual Question Boxes (Reddish Background) */}
                   <div className="space-y-4">
                     {incorrectQuestions.map((question, index) => (
-                      <div key={question.id} className="bg-red-50 rounded-lg shadow-md p-2 border border-red-200">
-                        <h4 className="font-medium text-gray-900 mb-2">
-                          Question {index + 1}: {question.question_text}
-                        </h4>
-                        
-                        {question.question_latex && (
-                          <div className="mb-3 p-3 bg-white rounded">
-                            <LaTeX block>{question.question_latex}</LaTeX>
-                          </div>
-                        )}
-                        
-                        {question.image_url && (
-                          <img 
-                            src={question.image_url} 
-                            alt="Question visual" 
-                            className="mb-3 max-w-sm rounded border"
-                          />
-                        )}
-
-                        <div className="space-y-2">
-                          {question.options.map((option, optionIndex) => {
-                            const isCorrectAnswer = optionIndex === question.correct_answer;
-                            const isUserAnswer = optionIndex === result.answers[question.id];
-
-                            if (isCorrectAnswer || (isUserAnswer && !isCorrectAnswer)) {
-                              return (
-                                <div
-                                  key={optionIndex}
-                                  className={`p-2 rounded text-sm ${
-                                    isCorrectAnswer
-                                      ? 'bg-green-100 text-green-800 border border-green-300'
-                                      : 'bg-red-100 text-red-800 border border-red-300'
-                                  }`}
-                                >
-                                  {isCorrectAnswer && '✅ Correct: '}
-                                  {isUserAnswer && !isCorrectAnswer && '❌ Your answer: '}
-                                  {option}
-                                </div>
-                              );
-                            }
-                            return null;
-                          })}
-                        </div>
-
-                        {question.explanation_latex && (
-                          <div className="mt-3 p-3 bg-blue-50 rounded border border-blue-200">
-                            <h5 
-                              className="font-medium text-blue-900 mb-2 cursor-pointer"
-                              onClick={() => setShowExplanation(prev => !prev)}
-                            >
-                              Explanation: {showExplanation ? '▲' : '▼'}
-                            </h5>
-                            {showExplanation && <LaTeX block>{question.explanation_latex}</LaTeX>}
-                          </div>
-                        )}
-
-                        {question.video_solution_url && (
-                          <button
-                            onClick={() => window.open(question.video_solution_url, '_blank')}
-                            className="w-full bg-purple-500 text-white py-2 px-6 rounded-lg hover:bg-purple-600 font-medium mt-4 flex items-center justify-center gap-2"
-                          >
-                            <BookOpen className="w-4 h-4" />
-                            Watch Solution Video
-                          </button>
-                        )}
-                      </div>
+                      <IncorrectQuestionReview 
+                        key={question.id}
+                        question={question}
+                        result={result}
+                        questionIndex={index}
+                      />
                     ))}
                   </div>
                 </div>
