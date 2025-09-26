@@ -32,7 +32,7 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="mx-auto px-4">
         {/* Header */}
         <div className="bg-white rounded-lg shadow-md p-8 mb-8">
           <div className="text-center">
@@ -122,7 +122,7 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
                   {/* Incorrect Questions */}
                   <div className="space-y-6 mb-8">
                     {incorrectQuestions.map((question, index) => (
-                      <div key={question.id} className="border-l-4 border-red-300 pl-4">
+                      <div key={question.id}>
                         <div className="bg-red-50 rounded-lg p-4 mb-4">
                           <h4 className="font-medium text-gray-900 mb-2">
                             Question {index + 1}: {question.question_text}
