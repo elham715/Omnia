@@ -182,3 +182,14 @@ export const deleteTopic = async (topicId: string) => {
     throw error;
   }
 };
+
+export const deleteExam = async (examId: string) => {
+  const { error } = await supabase
+    .from('exams')
+    .delete()
+    .eq('id', examId);
+
+  if (error) {
+    throw error;
+  }
+};

@@ -6,7 +6,7 @@ import { ExamManager } from './components/admin/ExamManager';
 import { AdminDashboard } from './components/admin/AdminDashboard';
 import { ExamInterface } from './components/student/ExamInterface';
 import { ResultsPage } from './components/student/ResultsPage';
-import { supabase, getQuestions, getQuestionSets, getTopics, getExams, getExam } from './lib/supabase';
+import { supabase, getQuestions, getQuestionSets, getTopics, getExams, getExam, deleteExam } from './lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
 import { 
   BookOpen, 
@@ -134,6 +134,16 @@ function App() {
     } catch (error) {
       console.error('Error submitting exam:', error);
       alert('Failed to submit exam results');
+    }
+  };
+
+  const handleDeleteExam = async (examId: string) => {
+    try {
+      await deleteExam(examId);
+      setExams(prevExams => prevExams.filter(exam => exam.id !== examId));
+    } catch (error) {
+      console.error('Error deleting exam:', error);
+      throw error; // Re-throw to be caught by ExamManager's try/catch
     }
   };
 
@@ -332,7 +342,7 @@ function App() {
         {currentView === 'manage-exams' && (
           <ExamManager
             exams={exams}
-            onDeleteExam={() => {}}
+            onDeleteExam={handleDeleteExam}
           />
         )}
 
