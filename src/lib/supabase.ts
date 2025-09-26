@@ -95,9 +95,13 @@ export const getExam = async (examId: string) => {
 };
 
 export const createQuestion = async (question: Omit<Question, 'id' | 'created_at'>) => {
+  const escapedQuestion = {
+    ...question,
+    explanation_latex: question.explanation_latex ? question.explanation_latex.replace(/\\/g, '\\\\') : null,
+  };
   const { data, error } = await supabase
     .from('questions')
-    .insert([question])
+    .insert([escapedQuestion])
     .select();
 
   if (error || !data) {
@@ -143,9 +147,13 @@ export const deleteQuestionSet = async (questionSetId: string) => {
 };
 
 export const updateQuestion = async (question: Question) => {
+  const escapedQuestion = {
+    ...question,
+    explanation_latex: question.explanation_latex ? question.explanation_latex.replace(/\\/g, '\\\\') : null,
+  };
   const { error } = await supabase
     .from('questions')
-    .update(question)
+    .update(escapedQuestion)
     .eq('id', question.id);
 
   if (error) {
