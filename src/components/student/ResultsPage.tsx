@@ -115,7 +115,7 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
                         className="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full hover:bg-blue-200 flex items-center gap-1"
                       >
                         <BookOpen className="w-4 h-4" />
-                        {showTopicVideo ? 'Hide Video' : 'Show Video'}
+                        📚 Complete Topic Explanation
                       </button>
                     )}
                   </h3>
@@ -186,9 +186,6 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
                   {/* Topic Explanation Video */}
                   {topicVideoUrl && showTopicVideo && (
                     <div className="border-t pt-6">
-                      <h4 className="text-lg font-semibold text-gray-900 mb-4">
-                        📚 Complete Topic Explanation: {topicName}
-                      </h4>
                       <VideoPlayer
                         url={topicVideoUrl}
                         title={`Topic Overview: ${topicName}`}
