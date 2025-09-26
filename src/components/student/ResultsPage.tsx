@@ -102,86 +102,88 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
               const topicVideoUrl = getTopicVideo(topicName);
               
               return (
-                                <div key={topicName} className="bg-blue-50 rounded-lg shadow-md p-6">
-                                  <h3 className="text-lg font-bold text-gray-900 mb-6 flex flex-col items-start md:flex-row md:items-center md:justify-between">
-                                    <div className="flex items-center gap-2">
-                                      <BookOpen className="w-5 h-5 text-blue-600" />
-                                      Topic: {topicName}
-                                    </div>
-                                    {topicVideoUrl && (
-                                      <button
-                                        onClick={() => window.open(topicVideoUrl, '_blank')}
-                                        className="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full hover:bg-blue-200 flex items-center gap-1 w-full md:w-auto mt-2 md:mt-0"
-                                      >
-                                        <BookOpen className="w-4 h-4" />
-                                        📚 Complete Topic Explanation
-                                      </button>
-                                    )}
-                                  </h3>
-                
-                                  <h4 className="text-lg font-bold text-gray-900 mb-4">Questions to Review:</h4>
-                                  <div className="space-y-6">
-                                    {incorrectQuestions.map((question, index) => (
-                                      <div key={question.id}>
-                                        <div className="bg-red-50 rounded-lg p-4 mb-4">
-                                          <h4 className="font-medium text-gray-900 mb-2">
-                                            Question {index + 1}: {question.question_text}
-                                          </h4>
-                                          
-                                          {question.question_latex && (
-                                            <div className="mb-3 p-3 bg-white rounded">
-                                              <LaTeX block>{question.question_latex}</LaTeX>
-                                            </div>
-                                          )}
-                                          
-                                          {question.image_url && (
-                                            <img 
-                                              src={question.image_url} 
-                                              alt="Question visual" 
-                                              className="mb-3 max-w-sm rounded border"
-                                            />
-                                          )}
-                
-                                          <div className="space-y-2">
-                                            {question.options.map((option, optionIndex) => (
-                                              <div
-                                                key={optionIndex}
-                                                className={`p-2 rounded text-sm ${
-                                                  optionIndex === question.correct_answer
-                                                    ? 'bg-green-100 text-green-800 border border-green-300'
-                                                    : result.answers[question.id] === optionIndex
-                                                    ? 'bg-red-100 text-red-800 border border-red-300'
-                                                    : 'bg-white border border-gray-200'
-                                                  }`}
-                                              >
-                                                {optionIndex === question.correct_answer && '✅ Correct: '}
-                                                {result.answers[question.id] === optionIndex && optionIndex !== question.correct_answer && '❌ Your answer: '}
-                                                {option}
-                                              </div>
-                                            ))}
-                                          </div>
-                
-                                          {question.explanation_latex && (
-                                            <div className="mt-3 p-3 bg-blue-50 rounded border border-blue-200">
-                                              <h5 className="font-medium text-blue-900 mb-2">Explanation:</h5>
-                                              <LaTeX block>{question.explanation_latex}</LaTeX>
-                                            </div>
-                                          )}
-                                        </div>
-                
-                                        {question.video_solution_url && (
-                                          <div className="mb-6">
-                                            <VideoPlayer
-                                              url={question.video_solution_url}
-                                              title={`Solution: ${question.question_text}`}
-                                              className="max-w-2xl"
-                                            />
-                                          </div>
-                                        )}
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>              );
+                <div key={topicName} className="mb-8">
+                  {/* Topic Box (Blue Background) */}
+                  <div className="bg-blue-100 rounded-lg shadow-md p-6 mb-4">
+                    <h3 className="text-lg font-bold text-gray-900 flex flex-col items-start md:flex-row md:items-center md:justify-between">
+                      <div className="flex items-center gap-2">
+                        <BookOpen className="w-5 h-5 text-blue-600" />
+                        Topic: {topicName}
+                      </div>
+                      {topicVideoUrl && (
+                        <button
+                          onClick={() => window.open(topicVideoUrl, '_blank')}
+                          className="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-200 rounded-full hover:bg-blue-300 flex items-center gap-1 w-full md:w-auto mt-2 md:mt-0"
+                        >
+                          <BookOpen className="w-4 h-4" />
+                          📚 Complete Topic Explanation
+                        </button>
+                      )}
+                    </h3>
+                  </div>
+
+                  {/* Individual Question Boxes (Reddish Background) */}
+                  <div className="space-y-4">
+                    {incorrectQuestions.map((question, index) => (
+                      <div key={question.id} className="bg-red-50 rounded-lg shadow-md p-4">
+                        <h4 className="font-medium text-gray-900 mb-2">
+                          Question {index + 1}: {question.question_text}
+                        </h4>
+                        
+                        {question.question_latex && (
+                          <div className="mb-3 p-3 bg-white rounded">
+                            <LaTeX block>{question.question_latex}</LaTeX>
+                          </div>
+                        )}
+                        
+                        {question.image_url && (
+                          <img 
+                            src={question.image_url} 
+                            alt="Question visual" 
+                            className="mb-3 max-w-sm rounded border"
+                          />
+                        )}
+
+                        <div className="space-y-2">
+                          {question.options.map((option, optionIndex) => (
+                            <div
+                              key={optionIndex}
+                              className={`p-2 rounded text-sm ${
+                                optionIndex === question.correct_answer
+                                  ? 'bg-green-100 text-green-800 border border-green-300'
+                                  : result.answers[question.id] === optionIndex
+                                  ? 'bg-red-100 text-red-800 border border-red-300'
+                                  : 'bg-white border border-gray-200'
+                              }`}
+                            >
+                              {optionIndex === question.correct_answer && '✅ Correct: '}
+                              {result.answers[question.id] === optionIndex && optionIndex !== question.correct_answer && '❌ Your answer: '}
+                              {option}
+                            </div>
+                          ))}
+                        </div>
+
+                        {question.explanation_latex && (
+                          <div className="mt-3 p-3 bg-blue-50 rounded border border-blue-200">
+                            <h5 className="font-medium text-blue-900 mb-2">Explanation:</h5>
+                            <LaTeX block>{question.explanation_latex}</LaTeX>
+                          </div>
+                        )}
+
+                        {question.video_solution_url && (
+                          <div className="mt-4">
+                            <VideoPlayer
+                              url={question.video_solution_url}
+                              title={`Solution: ${question.question_text}`}
+                              className="max-w-2xl"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
             })}
           </div>
         )}
