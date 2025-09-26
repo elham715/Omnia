@@ -31,10 +31,10 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8">
       <div className="mx-auto px-0 sm:px-4">
         {/* Header */}
-        <div className="bg-white rounded-lg shadow-md p-8 mb-8">
+        <div className="bg-white rounded-lg shadow-xl p-8 mb-8 border border-gray-200">
           <div className="text-center">
             <div className={`inline-flex items-center justify-center w-20 h-20 rounded-full mb-4 ${
               percentage >= 80 ? 'bg-green-100' : percentage >= 60 ? 'bg-yellow-100' : 'bg-red-100'
@@ -104,7 +104,7 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
               return (
                 <div key={topicName} className="mb-8">
                   {/* Topic Box (Blue Background) */}
-                  <div className="bg-blue-100 rounded-lg shadow-md p-6 mb-4">
+                  <div className="bg-blue-50 rounded-lg shadow-md p-6 mb-4 border border-blue-200">
                     <h3 className="text-lg font-bold text-gray-900 flex flex-col items-start md:flex-row md:items-center md:justify-between">
                       <div className="flex items-center gap-2">
                         <BookOpen className="w-5 h-5 text-blue-600" />
@@ -113,7 +113,7 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
                       {topicVideoUrl && (
                         <button
                           onClick={() => window.open(topicVideoUrl, '_blank')}
-                          className="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-200 rounded-full hover:bg-blue-300 flex items-center gap-1 w-full md:w-auto mt-2 md:mt-0"
+                          className="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full hover:bg-blue-200 flex items-center gap-1 w-full md:w-auto mt-2 md:mt-0"
                         >
                           <BookOpen className="w-4 h-4" />
                           📚 Complete Topic Explanation
@@ -125,12 +125,72 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
                   {/* Individual Question Boxes (Reddish Background) */}
                   <div className="space-y-4">
                     {incorrectQuestions.map((question, index) => (
-                      <IncorrectQuestionReview 
-                        key={question.id}
-                        question={question}
-                        result={result}
-                        questionIndex={index}
-                      />
+                      <div key={question.id} className="bg-red-50 rounded-lg shadow-md p-2 border border-red-200">
+                        <h4 className="font-medium text-gray-900 mb-2">
+                          Question {index + 1}: {question.question_text}
+                        </h4>
+                        
+                        {question.question_latex && (
+                          <div className="mb-3 p-3 bg-white rounded">
+                            <LaTeX block>{question.question_latex}</LaTeX>
+                          </div>
+                        )}
+                        
+                        {question.image_url && (
+                          <img 
+                            src={question.image_url} 
+                            alt="Question visual" 
+                            className="mb-3 max-w-sm rounded border"
+                          />
+                        )}
+
+                        <div className="space-y-2">
+                          {question.options.map((option, optionIndex) => {
+                            const isCorrectAnswer = optionIndex === question.correct_answer;
+                            const isUserAnswer = optionIndex === result.answers[question.id];
+
+                            if (isCorrectAnswer || (isUserAnswer && !isCorrectAnswer)) {
+                              return (
+                                <div
+                                  key={optionIndex}
+                                  className={`p-2 rounded text-sm ${
+                                    isCorrectAnswer
+                                      ? 'bg-green-100 text-green-800 border border-green-300'
+                                      : 'bg-red-100 text-red-800 border border-red-300'
+                                  }`}
+                                >
+                                  {isCorrectAnswer && '✅ Correct: '}
+                                  {isUserAnswer && !isCorrectAnswer && '❌ Your answer: '}
+                                  {option}
+                                </div>
+                              );
+                            }
+                            return null;
+                          })}
+                        </div>
+
+                        {question.explanation_latex && (
+                          <div className="mt-3 p-3 bg-blue-50 rounded border border-blue-200">
+                            <h5 
+                              className="font-medium text-blue-900 mb-2 cursor-pointer"
+                              onClick={() => setShowExplanation(prev => !prev)}
+                            >
+                              Explanation: {showExplanation ? '▲' : '▼'}
+                            </h5>
+                            {showExplanation && <LaTeX block>{question.explanation_latex}</LaTeX>}
+                          </div>
+                        )}
+
+                        {question.video_solution_url && (
+                          <button
+                            onClick={() => window.open(question.video_solution_url, '_blank')}
+                            className="w-full bg-purple-500 text-white py-2 px-6 rounded-lg hover:bg-purple-600 font-medium mt-4 flex items-center justify-center gap-2"
+                          >
+                            <BookOpen className="w-4 h-4" />
+                            Watch Solution Video
+                          </button>
+                        )}
+                      </div>
                     ))}
                   </div>
                 </div>
