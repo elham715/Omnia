@@ -100,12 +100,24 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
             {result.incorrect_topics.map((topicName) => {
               const incorrectQuestions = getIncorrectQuestions(topicName);
               const topicVideoUrl = getTopicVideo(topicName);
+              const [showTopicVideo, setShowTopicVideo] = React.useState(false); // Add this line
               
               return (
                 <div key={topicName} className="bg-white rounded-lg shadow-md p-6">
-                  <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                    <BookOpen className="w-5 h-5 text-blue-600" />
-                    Topic: {topicName}
+                  <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <BookOpen className="w-5 h-5 text-blue-600" />
+                      Topic: {topicName}
+                    </div>
+                    {topicVideoUrl && (
+                      <button
+                        onClick={() => setShowTopicVideo(prev => !prev)}
+                        className="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full hover:bg-blue-200 flex items-center gap-1"
+                      >
+                        <BookOpen className="w-4 h-4" />
+                        {showTopicVideo ? 'Hide Video' : 'Show Video'}
+                      </button>
+                    )}
                   </h3>
 
                   {/* Incorrect Questions */}
@@ -172,7 +184,7 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
                   </div>
 
                   {/* Topic Explanation Video */}
-                  {topicVideoUrl && (
+                  {topicVideoUrl && showTopicVideo && (
                     <div className="border-t pt-6">
                       <h4 className="text-lg font-semibold text-gray-900 mb-4">
                         📚 Complete Topic Explanation: {topicName}
