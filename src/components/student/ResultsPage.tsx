@@ -144,34 +144,40 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
                           />
                         )}
 
-                                                    <div className="space-y-2">
-                                                      {question.options.map((option, optionIndex) => {
-                                                        const isCorrectAnswer = optionIndex === question.correct_answer;
-                                                        const isUserAnswer = optionIndex === result.answers[question.id];
-                        
-                                                        if (isCorrectAnswer || (isUserAnswer && !isCorrectAnswer)) {
-                                                          return (
-                                                            <div
-                                                              key={optionIndex}
-                                                              className={`p-2 rounded text-sm ${
-                                                                isCorrectAnswer
-                                                                  ? 'bg-green-100 text-green-800 border border-green-300'
-                                                                  : 'bg-red-100 text-red-800 border border-red-300'
-                                                              }`}
-                                                            >
-                                                              {isCorrectAnswer && '✅ Correct: '}
-                                                              {isUserAnswer && !isCorrectAnswer && '❌ Your answer: '}
-                                                              {option}
-                                                            </div>
-                                                          );
-                                                        }
-                                                        return null;
-                                                      })}
-                                                    </div>
+                        <div className="space-y-2">
+                          {question.options.map((option, optionIndex) => {
+                            const isCorrectAnswer = optionIndex === question.correct_answer;
+                            const isUserAnswer = optionIndex === result.answers[question.id];
+
+                            if (isCorrectAnswer || (isUserAnswer && !isCorrectAnswer)) {
+                              return (
+                                <div
+                                  key={optionIndex}
+                                  className={`p-2 rounded text-sm ${
+                                    isCorrectAnswer
+                                      ? 'bg-green-100 text-green-800 border border-green-300'
+                                      : 'bg-red-100 text-red-800 border border-red-300'
+                                  }`}
+                                >
+                                  {isCorrectAnswer && '✅ Correct: '}
+                                  {isUserAnswer && !isCorrectAnswer && '❌ Your answer: '}
+                                  {option}
+                                </div>
+                              );
+                            }
+                            return null;
+                          })}
+                        </div>
+
                         {question.explanation_latex && (
                           <div className="mt-3 p-3 bg-blue-50 rounded border border-blue-200">
-                            <h5 className="font-medium text-blue-900 mb-2">Explanation:</h5>
-                            <LaTeX block>{question.explanation_latex}</LaTeX>
+                            <h5 
+                              className="font-medium text-blue-900 mb-2 cursor-pointer"
+                              onClick={() => setShowExplanation(prev => !prev)}
+                            >
+                              Explanation: {showExplanation ? '▲' : '▼'}
+                            </h5>
+                            {showExplanation && <LaTeX block>{question.explanation_latex}</LaTeX>}
                           </div>
                         )}
 
