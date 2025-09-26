@@ -100,7 +100,6 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
             {result.incorrect_topics.map((topicName) => {
               const incorrectQuestions = getIncorrectQuestions(topicName);
               const topicVideoUrl = getTopicVideo(topicName);
-              const [showTopicVideo, setShowTopicVideo] = React.useState(false); // Add this line
               
               return (
                 <div key={topicName} className="bg-white rounded-lg shadow-md p-6">
@@ -111,7 +110,7 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
                     </div>
                     {topicVideoUrl && (
                       <button
-                        onClick={() => setShowTopicVideo(prev => !prev)}
+                        onClick={() => window.open(topicVideoUrl, '_blank')}
                         className="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full hover:bg-blue-200 flex items-center gap-1"
                       >
                         <BookOpen className="w-4 h-4" />
@@ -182,17 +181,6 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
                       </div>
                     ))}
                   </div>
-
-                  {/* Topic Explanation Video */}
-                  {topicVideoUrl && showTopicVideo && (
-                    <div className="border-t pt-6">
-                      <VideoPlayer
-                        url={topicVideoUrl}
-                        title={`Topic Overview: ${topicName}`}
-                        className="max-w-3xl mx-auto"
-                      />
-                    </div>
-                  )}
                 </div>
               );
             })}
