@@ -144,25 +144,30 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
                           />
                         )}
 
-                        <div className="space-y-2">
-                          {question.options.map((option, optionIndex) => (
-                            <div
-                              key={optionIndex}
-                              className={`p-2 rounded text-sm ${
-                                optionIndex === question.correct_answer
-                                  ? 'bg-green-100 text-green-800 border border-green-300'
-                                  : result.answers[question.id] === optionIndex
-                                  ? 'bg-red-100 text-red-800 border border-red-300'
-                                  : 'bg-white border border-gray-200'
-                              }`}
-                            >
-                              {optionIndex === question.correct_answer && '✅ Correct: '}
-                              {result.answers[question.id] === optionIndex && optionIndex !== question.correct_answer && '❌ Your answer: '}
-                              {option}
-                            </div>
-                          ))}
-                        </div>
-
+                                                    <div className="space-y-2">
+                                                      {question.options.map((option, optionIndex) => {
+                                                        const isCorrectAnswer = optionIndex === question.correct_answer;
+                                                        const isUserAnswer = optionIndex === result.answers[question.id];
+                        
+                                                        if (isCorrectAnswer || (isUserAnswer && !isCorrectAnswer)) {
+                                                          return (
+                                                            <div
+                                                              key={optionIndex}
+                                                              className={`p-2 rounded text-sm ${
+                                                                isCorrectAnswer
+                                                                  ? 'bg-green-100 text-green-800 border border-green-300'
+                                                                  : 'bg-red-100 text-red-800 border border-red-300'
+                                                              }`}
+                                                            >
+                                                              {isCorrectAnswer && '✅ Correct: '}
+                                                              {isUserAnswer && !isCorrectAnswer && '❌ Your answer: '}
+                                                              {option}
+                                                            </div>
+                                                          );
+                                                        }
+                                                        return null;
+                                                      })}
+                                                    </div>
                         {question.explanation_latex && (
                           <div className="mt-3 p-3 bg-blue-50 rounded border border-blue-200">
                             <h5 className="font-medium text-blue-900 mb-2">Explanation:</h5>
