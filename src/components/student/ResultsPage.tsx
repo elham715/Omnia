@@ -178,7 +178,7 @@ export function ResultsPage({ result, questions, topics }: ResultsPageProps) {
                         {question.video_solution_url && (
                           <button
                             onClick={() => window.open(question.video_solution_url, '_blank')}
-                            className="w-full bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-purple-700 font-medium mt-4 flex items-center justify-center gap-2"
+                            className="w-full bg-purple-600 text-white py-2 px-6 rounded-lg hover:bg-purple-700 font-medium mt-4 flex items-center justify-center gap-2"
                           >
                             <BookOpen className="w-4 h-4" />
                             Watch Solution Video
